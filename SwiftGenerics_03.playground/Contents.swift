@@ -5,7 +5,14 @@ import UIKit
  Enum-ы не могут иметь хранимых свойств, только вычисляемые. Поэтому придется хранить значения в кейсах enum-a.
 */
 enum LinkedList<Element> {
-    indirect case Node(_ element: Element, next: LinkedList<Element>) // С помощью ключевого слова indirect указываем глубину рекурсии, поскольку Value типы в Swift-e имеют постоянный размер. Если бы мы не указывали точную глубину рекурсии, то поведение enum-a было бы неопределенным и непредсказуемым. С помощью indirect-а меняется способ, которым Swift хранит enum-ы, которые ссылаются на себя. Иначе enum может стать бесконечно большим: оно просто будет ссылаться на себя снова и снова, что привело бы к переполнению стека и крашу.
+    indirect case Node(_ element: Element, next: LinkedList<Element>) // С помощью ключевого слова indirect указываем глубину 
+                                                                      // рекурсии, поскольку Value типы в Swift-e имеют постоянный 
+                                                                      // размер. Если бы мы не указывали точную глубину рекурсии, 
+                                                                      // то поведение enum-a было бы неопределенным и непредсказуемым. 
+                                                                      // С помощью indirect-а меняется способ, которым Swift 
+                                                                      // хранит enum-ы, которые ссылаются на себя. Иначе enum 
+                                                                      // может стать бесконечно большим: оно просто будет ссылаться 
+                                                                      // на себя снова и снова, что привело бы к переполнению стека и крашу.
     case Empty
     
     init() {
@@ -75,16 +82,16 @@ enum LinkedList<Element> {
             switch self {
             case let .Node(elem, next: nextElem):
                 self = nextElem
-                arrayList.append(elem)
+                arrayList.append(elem)          // Пробегаемся по элементам от 0 до i, и сохраняем вытащенные элементы в массив
             case .Empty:
                 self = self.addNode(insertNode) // Если пустой список, то просто добавляем узел
             }
         }
         
-        self.addElement(element: insertNode) // Добавляем наш новый элемент
+        self.addElement(element: insertNode)    // Добавляем наш новый элемент
         
         for _ in 0..<countElement - index  {
-            self = self.addNode(arrayList.removeLast())
+            self = self.addNode(arrayList.removeLast()) // Возвращаем элементы в наш список
         }
         
     }
